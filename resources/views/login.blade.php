@@ -4,7 +4,7 @@
             <form class="col-lg-3 col-md-4 col-10 mx-auto text-center" novalidate action="{{ route('aksi_login') }}" method="POST" id="loginForm" onsubmit="return validateForm();">
                 @csrf
                 <div class="w-100 mb-4 d-flex">
-                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{ url('/') }}">
+                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center">
                     <img src="{{ asset('img/' . $darren2->iconlogin) }}" alt="Iconlogin" class="logo-dashboard">
 
                     </a>

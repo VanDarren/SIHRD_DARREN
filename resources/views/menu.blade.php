@@ -31,8 +31,8 @@
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="{{url('home/profile') }}">Profile</a>
-            <a class="dropdown-item" href="{{url('home/logout') }}">Logout</a>
+            <a class="dropdown-item" href="">Profile</a>
+            <a class="dropdown-item" href="">Logout</a>
           </div>
         </li>
       </ul>
@@ -44,70 +44,99 @@
   <nav class="vertnav navbar navbar-light">
     <!-- Logo -->
     <div class="w-100 mb-4 d-flex">
-      <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./index.html">
-        <img src="{{url('img/' . htmlspecialchars($darren2->iconmenu)) }}" alt="IconMenu" class="logo-dashboard img-fit-menu">
+      <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="{{ route('dashboard') }}">
+        <img src="{{ asset('img/' . $darren2->iconmenu) }}" alt="IconMenu" class="logo-dashboard img-fit-menu">
       </a>
     </div>
 
     <!-- Main Menu -->
     <ul class="navbar-nav flex-fill w-100 mb-2">
       <li class="nav-item">
-        <a href="{{url('home/dashboard') }}" aria-expanded="false" class="nav-link">
+        <a href="{{ route('dashboard') }}" aria-expanded="false" class="nav-link">
           <i class="fe fe-home fe-16"></i>
           <span class="ml-3 item-text">Dashboard</span>
         </a>
       </li>
     </ul>
 
-    <p class="text-muted nav-heading mt-4 mb-1">
-      <span>Peminjaman</span>
-    </p>
-    <ul class="navbar-nav flex-fill w-100 mb-2">
-      <li class="nav-item">
-        <a href="{{url('home/pinjam') }}" class="nav-link">
-          <i class="fe fe-box fe-16"></i>
-          <span class="ml-3 item-text">Pinjam Barang</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('home/kembali') }}" class="nav-link">
-          <i class="fe fe-box fe-16"></i>
-          <span class="ml-3 item-text">Kembalikan Barang</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('home/catatan') }}" class="nav-link">
-          <i class="fe fe-file-text fe-16"></i>
-          <span class="ml-3 item-text">Catatan Peminjaman</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('home/barang') }}" class="nav-link">
-          <i class="fe fe-list fe-16"></i>
-          <span class="ml-3 item-text">Daftar Barang</span>
-        </a>
-      </li>
-    </ul>
+    <!-- Conditional Menus -->
+    @php
+      $id_level = session('id_level');
+    @endphp
 
-    <p class="text-muted nav-heading mt-4 mb-1">
-      <span>Pengaturan</span>
-    </p>
-    <ul class="navbar-nav flex-fill w-100 mb-2">
-      <li class="nav-item">
-        <a href="{{url('home/setting') }}" aria-expanded="false" class="nav-link">
-          <i class="fe fe-settings fe-16"></i>
-          <span class="ml-3 item-text">Setting</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{url('home/logactivity') }}" aria-expanded="false" class="nav-link">
-          <i class="fe fe-settings fe-16"></i>
-          <span class="ml-3 item-text">Log Activity</span>
-        </a>
-      </li>
-    </ul>
+    @if($id_level == 1)
+      <!-- Menu for id_level 1 -->
+      <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="fe fe-users fe-16"></i>
+            <span class="ml-3 item-text">Karyawan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="fe fe-dollar-sign fe-16"></i>
+            <span class="ml-3 item-text">Gaji</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('lowongsn') }}" class="nav-link">
+            <i class="fe fe-briefcase fe-16"></i>
+            <span class="ml-3 item-text">Lowongan</span>
+          </a>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1"><span>Lamaran</span></p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="fe fe-file-text fe-16"></i>
+            <span class="ml-3 item-text">Lamaran</span>
+          </a>
+        </li>
+      </ul>
+      <p class="text-muted nav-heading mt-4 mb-1"><span>Pengaturan</span></p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="" aria-expanded="false" class="nav-link">
+            <i class="fe fe-settings fe-16"></i>
+            <span class="ml-3 item-text">Setting</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="" aria-expanded="false" class="nav-link">
+            <i class="fe fe-user fe-16"></i>
+            <span class="ml-3 item-text">User</span>
+          </a>
+        </li>
+      </ul>
+    @elseif($id_level == 2)
+      <!-- Menu for id_level 2 -->
+      <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="" class="nav-link">
+            <i class="fe fe-dollar-sign fe-16"></i>
+            <span class="ml-3 item-text">Gaji</span>
+          </a>
+        </li>
+      </ul>
+    @elseif($id_level == 3)
+      <!-- Menu for id_level 3 -->
+      <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="{{ route('lowongan') }}" class="nav-link">
+            <i class="fe fe-briefcase fe-16"></i>
+            <span class="ml-3 item-text">Lowongan</span>
+          </a>
+        </li>
+      </ul>
+    @endif
   </nav>
 </aside>
+
 
 
     <style>

@@ -18,6 +18,11 @@ class Controller extends BaseController
     public function dashboard()
     {
         $model = new HRD();
+
+        $id_level = session()->get('id_level');
+        if (!$id_level) {
+            return redirect()->route('login');
+        }
         $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
  
         echo view('header', $data);
@@ -136,4 +141,84 @@ class Controller extends BaseController
         return response($imageData)
                     ->header('Content-Type', 'image/png'); 
     }
+
+    public function register()
+    {
+        $model = new HRD();
+        $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
+        echo view('header', $data);
+        echo view('register', $data);
+        echo view('footer');
+    }
+
+    public function aksiregister(Request $request)
+    {
+        $model = new HRD();
+    
+        $username = $request->input('username');
+        $email = $request->input('email');
+        $nohp = $request->input('nohp');
+        $password = $request->input('password');
+        $confirmPassword = $request->input('confirm_password');
+    
+        // Validasi konfirmasi password
+        if ($password !== $confirmPassword) {
+            return redirect()->back()->withErrors(['confirm_password' => 'Password dan konfirmasi password harus sama']);
+        }
+    
+        $data = [
+            'username' => $username,
+            'email' => $email,
+            'nohp' => $nohp,
+            'password' => $password,
+            'id_level' => 3 // Default level untuk user baru
+        ];
+    
+        // Simpan data ke database
+        $model->tambah('user', $data);
+        return redirect('login')->with('success', 'Registrasi berhasil, silakan login');
+    }
+
+    public function lowongan()
+    {
+        $model = new HRD();
+
+        $id_level = session()->get('id_level');
+        if (!$id_level) {
+            return redirect()->route('login');
+        }
+
+        $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
+        $data['lowongans'] = $model->tampil('lowongan');
+        echo view('header', $data);
+        echo view('menu', $data);
+        echo view('lowongan', $data);
+        echo view('footer');
+    }
+
+    public function addlowongan(Request $request)
+    {
+        $id_user = session()->get('id_user');
+        $lowongan_id = $request->input('lowongan_id');
+        $tgl_lahir = $request->input('tanggal_lahir');
+        $alamat = $request->input('alamat');
+        $cv = $request->file('cv')->store('cv');
+        $surat = $request->file('surat')->store('surat');
+    
+        $data = [
+            'id_user' => $id_user,
+            'id_lowongan' => $lowongan_id,
+            'tgl_lahir' => $tgl_lahir,
+            'alamat' => $alamat,
+            'cv' => $cv,
+            'surat' => $surat,
+            'status' => 'Pending',
+        ];
+    
+        $model = new HRD();
+        $model->tambah('pelamar', $data);
+    
+        return redirect('lowongan')->with('success', 'Lamaran berhasil dikirim');
+    }
+    
 }
