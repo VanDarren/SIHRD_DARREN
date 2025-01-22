@@ -32,7 +32,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="">Profile</a>
-            <a class="dropdown-item" href="">Logout</a>
+            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
           </div>
         </li>
       </ul>
@@ -81,7 +81,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('lowongsn') }}" class="nav-link">
+          <a href="{{ route('lowongan') }}" class="nav-link">
             <i class="fe fe-briefcase fe-16"></i>
             <span class="ml-3 item-text">Lowongan</span>
           </a>

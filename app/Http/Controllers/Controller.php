@@ -142,6 +142,16 @@ class Controller extends BaseController
                     ->header('Content-Type', 'image/png'); 
     }
 
+    public function logout()
+    {
+        $model = new HRD();
+        $id_user = session()->get('id_user');
+    
+
+        session()->flush();
+        return redirect()->route('login'); 
+    }
+
     public function register()
     {
         $model = new HRD();
@@ -202,23 +212,33 @@ class Controller extends BaseController
         $lowongan_id = $request->input('lowongan_id');
         $tgl_lahir = $request->input('tanggal_lahir');
         $alamat = $request->input('alamat');
-        $cv = $request->file('cv')->store('cv');
-        $surat = $request->file('surat')->store('surat');
+    
+        // Simpan file CV ke folder public/lamaran/
+        $cv = $request->file('cv');
+        $cvName = time() . '_' . $cv->getClientOriginalName();
+        $cvPath = public_path('lamaran');
+        $cv->move($cvPath, $cvName);
+    
+        // Simpan file Surat Lamaran ke folder public/lamaran/
+        $surat = $request->file('surat');
+        $suratName = time() . '_' . $surat->getClientOriginalName();
+        $surat->move($cvPath, $suratName);
     
         $data = [
             'id_user' => $id_user,
             'id_lowongan' => $lowongan_id,
             'tgl_lahir' => $tgl_lahir,
             'alamat' => $alamat,
-            'cv' => $cv,
-            'surat' => $surat,
+            'cv' => $cvName,
+            'surat' =>  $suratName,
             'status' => 'Pending',
         ];
     
         $model = new HRD();
         $model->tambah('pelamar', $data);
-    
+        session()->flash('success', 'Lamaran berhasil ditambahkan!');
         return redirect('lowongan')->with('success', 'Lamaran berhasil dikirim');
     }
+    
     
 }

@@ -20,7 +20,7 @@ Route::get('/', function () {
 // base
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 Route::get('/generateCaptcha', [Controller::class, 'generateCaptcha'])->name('generateCaptcha');
-Route::get('/logout', [Controller::class, 'logout']);
+Route::get('/logout', [Controller::class, 'logout'])->name('logout');
 Route::get('/error404', [Controller::class, 'error404'])->name('error404');
 
 
