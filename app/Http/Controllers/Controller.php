@@ -210,6 +210,7 @@ class Controller extends BaseController
     {
         $id_user = session()->get('id_user');
         $lowongan_id = $request->input('lowongan_id');
+        $nama = $request->input('nama');
         $tgl_lahir = $request->input('tanggal_lahir');
         $alamat = $request->input('alamat');
     
@@ -227,6 +228,7 @@ class Controller extends BaseController
         $data = [
             'id_user' => $id_user,
             'id_lowongan' => $lowongan_id,
+            'nama_lengkap' => $nama,
             'tgl_lahir' => $tgl_lahir,
             'alamat' => $alamat,
             'cv' => $cvName,
@@ -240,5 +242,36 @@ class Controller extends BaseController
         return redirect('lowongan')->with('success', 'Lamaran berhasil dikirim');
     }
     
-    
+    public function lamaran()
+    {
+        $model = new HRD();
+
+        $id_level = session()->get('id_level');
+        if (!$id_level) {
+            return redirect()->route('login');
+        }
+
+        $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
+        $data['pelamars'] = $model->join('pelamar','lowongan','pelamar.id_lowongan','lowongan.id_lowongan');
+        echo view('header', $data);
+        echo view('menu', $data);
+        echo view('lamaran', $data);
+        echo view('footer');
+    }
+
+
+public function acceptPelamar($id_pelamar)
+{
+    $model = new HRD();
+    $model->edit('pelamar', ['status' => 'Diterima'], ['id_pelamar' => $id_pelamar]);
+    return redirect()->route('lamaran')->with('success', 'Pelamar diterima');
+}
+
+public function declinePelamar($id_pelamar)
+{
+    $model = new HRD();
+    $model->edit('pelamar', ['status' => 'Ditolak'], ['id_pelamar' => $id_pelamar]);
+    return redirect()->route('lamaran')->with('success', 'Pelamar ditolak');
+}
+
 }

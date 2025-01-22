@@ -39,6 +39,10 @@
                   </button>
                 </div>
                 <div class="modal-body">
+                <div class="form-group">
+                    <label for="tanggal_lahir">Nama Lengkap</label>
+                    <input type="text" name="nama" class="form-control" required>
+                  </div>
                   <div class="form-group">
                     <label for="tanggal_lahir">Tanggal Lahir</label>
                     <input type="date" name="tanggal_lahir" class="form-control" required>

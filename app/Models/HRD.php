@@ -60,9 +60,10 @@ public function hapus($table, $where)
     public function join2($table1, $table2, $on1, $on2) {
         $this->setTable($table1);
         return DB::table($this->table)
-                    ->join($table2, $on1, '=', $on2)
+                    ->leftJoin($table2, $on1, '=', $on2)
                     ->get(); 
     }
+    
 
 
     public function getLogData()

@@ -29,9 +29,13 @@ Route::get('/login',  [Controller::class, 'login'])->name('login');
 Route::get('/setting', [Controller::class, 'setting'])->name('setting');
 Route::get('/register', [Controller::class, 'register'])->name('register');
 Route::get('/lowongan', [Controller::class, 'lowongan'])->name('lowongan');
+Route::get('/pelamaran', [Controller::class, 'lamaran'])->name('lamaran');
 
 // aksi
 Route::post('/aksi_login', [Controller::class, 'aksi_login'])->name('aksi_login');
 Route::post('/editsetting', [Controller::class, 'editsetting']);
 Route::post('/aksi_register', [Controller::class, 'aksiregister'])->name('aksi_register');
 Route::post('/addlowongan', [Controller::class, 'addlowongan'])->name('addlowongan');
+Route::get('/pelamar/detail/{id}', [Controller::class, 'detailPelamar'])->name('detailPelamar');
+Route::post('/pelamar/accept/{id}', [Controller::class, 'acceptPelamar'])->name('acceptPelamar');
+Route::post('/pelamar/decline/{id}', [Controller::class, 'declinePelamar'])->name('declinePelamar');
