@@ -30,6 +30,8 @@ Route::get('/setting', [Controller::class, 'setting'])->name('setting');
 Route::get('/register', [Controller::class, 'register'])->name('register');
 Route::get('/lowongan', [Controller::class, 'lowongan'])->name('lowongan');
 Route::get('/pelamaran', [Controller::class, 'lamaran'])->name('lamaran');
+Route::get('/karyawan', [Controller::class, 'karyawan'])->name('karyawan');
+Route::get('/user', [Controller::class, 'user'])->name('user');
 
 // aksi
 Route::post('/aksi_login', [Controller::class, 'aksi_login'])->name('aksi_login');

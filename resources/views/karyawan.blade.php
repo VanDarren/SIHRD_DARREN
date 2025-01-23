@@ -10,7 +10,7 @@
             <div class="card shadow">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Daftar Karyawan</h5>
-                <a href="<?= base_url('Home/tambahKaryawan') ?>" class="btn btn-primary">Tambah Karyawan</a>
+                <a href="" class="btn btn-primary">Tambah Karyawan</a>
               </div>
               <div class="card-body">
                 <!-- table -->
@@ -25,21 +25,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $no = 1; ?>
-                    <?php foreach ($karyawan as $data): ?>
+                    @php $no = 1; @endphp
+                    @foreach ($karyawan as $data)
                       <tr>
-                        <td><?= $no++; ?></td>
-                        <td><?= esc($data->username); ?></td>
-                        <td><?= esc(number_format($data->gaji, 2, ',', '.')); ?></td>
-                        <td><?= esc($data->divisi); ?></td>
+                        <td>{{ $no++ }}</td>
+                        <td>{{ $data->username }}</td>
+                        <td>{{ number_format($data->gaji, 2, ',', '.') }}</td>
+                        <td>{{ $data->divisi }}</td>
                         <td>
-                          <a href="<?= base_url('Home/editKaryawan/' . $data->id_karyawan) ?>" class="btn btn-sm btn-warning">Edit</a>
-                          <a href="<?= base_url('Home/hapusKaryawan/' . $data->id_karyawan) ?>" 
+                          <a href="" class="btn btn-sm btn-warning">Edit</a>
+                          <a href="" 
                              class="btn btn-sm btn-danger"
                              onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                         </td>
                       </tr>
-                    <?php endforeach; ?>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -51,13 +51,3 @@
   </div> <!-- .container-fluid -->
 </main>
 
-<!-- Tambahkan Script DataTables -->
-<script>
-  $(document).ready(function() {
-    $('#dataTable-1').DataTable({
-      language: {
-        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/id.json" // Mengatur Bahasa Indonesia (opsional)
-      }
-    });
-  });
-</script>

@@ -69,15 +69,9 @@
       <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
       <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item">
-          <a href="" class="nav-link">
+          <a href="{{route('karyawan')}}" class="nav-link">
             <i class="fe fe-users fe-16"></i>
             <span class="ml-3 item-text">Karyawan</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="" class="nav-link">
-            <i class="fe fe-dollar-sign fe-16"></i>
-            <span class="ml-3 item-text">Gaji</span>
           </a>
         </li>
         <li class="nav-item">
@@ -99,26 +93,15 @@
       <p class="text-muted nav-heading mt-4 mb-1"><span>Pengaturan</span></p>
       <ul class="navbar-nav flex-fill w-100 mb-2">
         <li class="nav-item">
-          <a href="" aria-expanded="false" class="nav-link">
+          <a href="{{ route('setting') }}" aria-expanded="false" class="nav-link">
             <i class="fe fe-settings fe-16"></i>
             <span class="ml-3 item-text">Setting</span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="" aria-expanded="false" class="nav-link">
+          <a href="{{ route('user') }}" aria-expanded="false" class="nav-link">
             <i class="fe fe-user fe-16"></i>
             <span class="ml-3 item-text">User</span>
-          </a>
-        </li>
-      </ul>
-    @elseif($id_level == 2)
-      <!-- Menu for id_level 2 -->
-      <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
-      <ul class="navbar-nav flex-fill w-100 mb-2">
-        <li class="nav-item">
-          <a href="" class="nav-link">
-            <i class="fe fe-dollar-sign fe-16"></i>
-            <span class="ml-3 item-text">Gaji</span>
           </a>
         </li>
       </ul>

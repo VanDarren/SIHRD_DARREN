@@ -277,6 +277,7 @@ public function declinePelamar($id_pelamar)
 public function karyawan()
 {
     $model = new HRD(); // Model yang digunakan
+    $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
     $data['karyawan'] = $model->join('karyawan', 'user', 'karyawan.id_user', 'user.id_user');
     echo view('header', $data);
     echo view('menu', $data);
@@ -284,5 +285,81 @@ public function karyawan()
     echo view('footer');
 }
 
+public function setting()
+{
+    $id_level = session()->get('id_level');	
+
+    // Cek apakah pengguna sudah login
+    if (!$id_level) {
+        return redirect()->route('login'); // Redirect ke halaman login
+    } elseif ($id_level != 1) {
+        return redirect()->route('error404'); // Redirect ke halaman error
+    } else {
+        // Ambil data dari database
+        $model = new HRD();
+        $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
+
+        // Log aktivitas pengguna
+        $id_user = session()->get('id_user');
+     
+
+        $data['id_level'] = $id_level; 
+
+        echo view('header', $data);
+        echo view('menu', $data);
+        echo view('setting', $data);
+        echo view('footer');
+    }
+}
+
+public function editsetting(Request $request)
+    {
+        // Initialize the model
+        $model = new HRD();
+        $namawebsite = $request->input('namaweb');
+    
+        $data = ['namawebsite' => $namawebsite];
+    
+        // Process upload for tab icon
+        if ($request->hasFile('tab') && $request->file('tab')->isValid()) {
+            $tab = $request->file('tab');
+            $tabName = time() . '_' . $tab->getClientOriginalName(); // Save file with unique name
+            $tab->move(public_path('img'), $tabName);
+            $data['icontab'] = $tabName; // Save file name to database
+        }
+    
+        // Process upload for menu icon
+        if ($request->hasFile('menu') && $request->file('menu')->isValid()) {
+            $menu = $request->file('menu');
+            $menuName = time() . '_' . $menu->getClientOriginalName();
+            $menu->move(public_path('img'), $menuName);
+            $data['iconmenu'] = $menuName;
+        }
+    
+        // Process upload for login icon
+        if ($request->hasFile('login') && $request->file('login')->isValid()) {
+            $login = $request->file('login');
+            $loginName = time() . '_' . $login->getClientOriginalName();
+            $login->move(public_path('img'), $loginName);
+            $data['iconlogin'] = $loginName;
+        }
+    
+        $where = ['id_setting' => 1];
+        $model->edit('setting',$where, $data ); 
+    
+       
+        return redirect()->route('setting')->with('success', 'Settings updated successfully!'); // Adjust as necessary
+    }
+
+    public function user()
+{
+    $model = new HRD(); // Model yang digunakan
+    $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
+    $data['users'] = $model->join('user', 'level', 'user.id_level', 'level.id_level');
+    echo view('header', $data);
+    echo view('menu', $data);
+    echo view('user', $data);
+    echo view('footer');
+}
 
 }
