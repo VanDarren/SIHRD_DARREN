@@ -307,13 +307,14 @@ class Controller extends BaseController
 
     public function acceptPelamar($id_pelamar)
     {
-        // Ambil data pelamar berdasarkan ID dan lakukan join dengan tabel lowongan
+        // Ambil data pelamar berdasarkan ID dan lakukan join dengan tabel lowongan dan user
         $pelamar = DB::table('pelamar')
             ->join('lowongan', 'pelamar.id_lowongan', '=', 'lowongan.id_lowongan')
+            ->join('user', 'pelamar.id_user', '=', 'user.id_user') // Join with user to get email
             ->where('pelamar.id_pelamar', $id_pelamar)
-            ->select('pelamar.*', 'lowongan.nama_lowongan') // Pilih semua kolom dari pelamar dan nama_lowongan dari lowongan
+            ->select('pelamar.*', 'lowongan.nama_lowongan', 'user.email') // Include email in the selection
             ->first();
-        
+    
         if (!$pelamar) {
             return redirect()->route('lamaran')->with('error', 'Pelamar tidak ditemukan');
         }
@@ -335,17 +336,64 @@ class Controller extends BaseController
             'divisi' => $pelamar->nama_lowongan,    // Ambil nama_lowongan dari hasil join
         ]);
     
+        // Kirim email kepada pelamar
+        $this->sendEmail($pelamar->email, 'Penerimaan Pelamar', 'Selamat! Anda telah diterima untuk posisi: ' . $pelamar->nama_lowongan);
+        
         // Redirect kembali ke halaman lamaran dengan pesan sukses
         return redirect()->route('lamaran')->with('success', 'Pelamar berhasil diterima, id_level diperbarui, dan data karyawan ditambahkan');
     }
     
-    
 
-public function declinePelamar($id_pelamar)
+    public function declinePelamar($id_pelamar)
+    {
+        $model = new HRD();
+        $pelamar = DB::table('pelamar')
+            ->join('user', 'pelamar.id_user', '=', 'user.id_user')
+            ->join('lowongan', 'pelamar.id_lowongan', '=', 'lowongan.id_lowongan') // Join with lowongan to get nama_lowongan
+            ->where('pelamar.id_pelamar', $id_pelamar)
+            ->select('pelamar.*', 'user.email', 'lowongan.nama_lowongan') // Include email and nama_lowongan in the selection
+            ->first();
+    
+        if (!$pelamar) {
+            return redirect()->route('lamaran')->with('error', 'Pelamar tidak ditemukan');
+        }
+    
+        // Mark pelamar as declined
+        $model->edit('pelamar', ['id_pelamar' => $id_pelamar], ['status' => 'Ditolak']);
+    
+        // Kirim email kepada pelamar
+        $this->sendEmail($pelamar->email, 'Penolakan Pelamar', 'Maaf, Anda telah ditolak untuk posisi: ' . $pelamar->nama_lowongan);
+        
+        return redirect()->route('lamaran')->with('success', 'Pelamar ditolak');
+    }
+
+    private function sendEmail($to, $subject, $body)
 {
-    $model = new HRD();
-    $model->edit('pelamar', ['id_pelamar' => $id_pelamar],['status' => 'Ditolak'], );
-    return redirect()->route('lamaran')->with('success', 'Pelamar ditolak');
+    $mail = new PHPMailer();
+
+    try {
+        //Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Set your SMTP server
+        $mail->SMTPAuth = true;
+        $mail->Username = 'vandarren06@gmail.com'; // Your email
+        $mail->Password = 'jlhd ebql lmot kfaw'; // Your email password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        //Recipients
+        $mail->setFrom('vandarren06@gmail.com', 'PT. CBPQLNJIAO');
+        $mail->addAddress($to); // Add a recipient
+
+        // Content
+        $mail->isHTML(true); // Set email format to HTML
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        $mail->send();
+    } catch (Exception $e) {
+        error_log("Email could not be sent. Mailer Error: {$mail->ErrorInfo}");
+    }
 }
 
 public function karyawan()

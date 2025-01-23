@@ -21,17 +21,19 @@
                   <div class="ml-4">
                     <!-- Button untuk membuka modal -->
                     <button 
-                      type="button" 
-                      class="btn btn-info" 
-                      data-toggle="modal" 
-                      data-target="#detailModal"
-                      data-nama-lowongan="{{ $pelamar->nama_lowongan }}"
-                      data-nama-lengkap="{{ $pelamar->nama_lengkap }}"
-                      data-tgl-lahir="{{ $pelamar->tgl_lahir }}"
-                      data-alamat="{{ $pelamar->alamat }}"
-                      data-status="{{ $pelamar->status }}">
-                      Lihat Detail
-                    </button>
+  type="button" 
+  class="btn btn-info" 
+  data-toggle="modal" 
+  data-target="#detailModal"
+  data-nama-lowongan="{{ $pelamar->nama_lowongan }}"
+  data-nama-lengkap="{{ $pelamar->nama_lengkap }}"
+  data-tgl-lahir="{{ $pelamar->tgl_lahir }}"
+  data-alamat="{{ $pelamar->alamat }}"
+  data-status="{{ $pelamar->status }}"
+  data-cv="{{ asset('lamaran/' . $pelamar->cv) }}" 
+  data-surat="{{ asset('lamaran/' . $pelamar->surat) }}"> 
+  Lihat Detail
+</button>
                     <form action="{{ route('acceptPelamar', $pelamar->id_pelamar) }}" method="POST" class="d-inline">
                       @csrf
                       <button type="submit" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin menerima pelamar ini?')">Accept</button>
@@ -72,26 +74,31 @@
 </div>
 
 <!-- JavaScript -->
+<!-- Update the detail modal JavaScript -->
 <script>
- $('#detailModal').on('show.bs.modal', function (e) {
-    var button = $(e.relatedTarget); // Tombol yang membuka modal
+$('#detailModal').on('show.bs.modal', function (e) {
+    var button = $(e.relatedTarget); // Button that opens the modal
     var modal = $(this);
 
-    // Mengambil data dari atribut data-*
+    // Retrieve data from data-* attributes
     var namaLowongan = button.data('nama-lowongan');
     var namaLengkap = button.data('nama-lengkap');
     var tglLahir = button.data('tgl-lahir');
     var alamat = button.data('alamat');
     var status = button.data('status');
+    var cv = button.data('cv'); // Assuming you'd pass this in your button's data attributes
+    var surat = button.data('surat'); // Same here
 
-    // Menampilkan data pelamar dalam modal
+    // Show applicant data in the modal
     modal.find('#modal-content').html(`
       <p><strong>Nama Lowongan: </strong>${namaLowongan}</p>
       <p><strong>Nama Lengkap: </strong>${namaLengkap}</p>
       <p><strong>Tanggal Lahir: </strong>${tglLahir}</p>
       <p><strong>Alamat: </strong>${alamat}</p>
       <p><strong>Status: </strong>${status}</p>
+      <p><strong>CV: </strong><a href="${cv}" target="_blank">Lihat CV</a></p>
+      <p><strong>Surat: </strong><a href="${surat}" target="_blank">Lihat Surat</a></p>
     `);
 });
-
 </script>
+
