@@ -10,7 +10,6 @@
             <div class="card shadow">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>Daftar Karyawan</h5>
-                <a href="" class="btn btn-primary">Tambah Karyawan</a>
               </div>
               <div class="card-body">
                 <!-- table -->

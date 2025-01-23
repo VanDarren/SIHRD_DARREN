@@ -206,7 +206,48 @@ class Controller extends BaseController
         echo view('footer');
     }
 
-    public function addlowongan(Request $request)
+    public function tambahlowongan(Request $request)
+    {
+        $model = new HRD();
+    
+        $nama = $request->input('nama_lowongan');
+        $syarat = $request->input('syarat');
+
+        $data = [
+            'nama_lowongan' => $nama,
+            'syarat' => $syarat
+        ];
+    
+        // Simpan data ke database
+        $model->tambah('lowongan', $data);
+        return redirect('lowongan')->with('success', 'Lowongan berhasil ditambah');
+    }
+
+    public function editlowongan(Request $request, $id_lowongan)
+    {
+        $model = new HRD();
+    
+        $nama = $request->input('nama_lowongan');
+        $syarat = $request->input('syarat');
+
+        $data = [
+            'nama_lowongan' => $nama,
+            'syarat' => $syarat
+        ];
+    
+        // Simpan data ke database
+        $model->edit('lowongan',['id_lowongan' => $id_lowongan] ,$data);
+        return redirect('lowongan')->with('success', 'Lowongan berhasil diedit');
+    }
+
+    public function hapuslowongan(Request $request, $id_lowongan)
+    {
+        $model = new HRD();
+    $model->hapus('lowongan', ['id_pelamar' => $id_lowongan]);
+    return redirect()->route('lowongan')->with('success', 'Lowongan dihapus');
+    }
+
+    public function addlamaran(Request $request)
     {
         $id_user = session()->get('id_user');
         $lowongan_id = $request->input('lowongan_id');
@@ -241,6 +282,7 @@ class Controller extends BaseController
         session()->flash('success', 'Lamaran berhasil ditambahkan!');
         return redirect('lowongan')->with('success', 'Lamaran berhasil dikirim');
     }
+    
     
     public function lamaran()
     {
@@ -361,5 +403,7 @@ public function editsetting(Request $request)
     echo view('user', $data);
     echo view('footer');
 }
+
+
 
 }
