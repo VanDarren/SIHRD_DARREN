@@ -433,8 +433,6 @@ public function editKaryawan(Request $request, $id_karyawan)
     public function hapusKaryawan(Request $request, $id_karyawan)
     {
         $model = new HRD();
-        
-        // Panggil fungsi hapus dari model
         $model->hapus('karyawan', ['id_karyawan' => $id_karyawan]);
         
         return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus');
