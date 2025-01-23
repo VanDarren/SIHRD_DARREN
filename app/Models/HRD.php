@@ -67,7 +67,13 @@ public function tampil2($tabel)
                  ->get(); // Mengambil data
     }
     
-
+    public function join3($table1, $table2, $table3, $on1, $on2, $on3, $on4) {
+        $this->setTable($table1);
+        return DB::table($this->table)
+                    ->join($table2, $on1, '=', $on2) 
+                    ->join($table3, $on3, '=', $on4) 
+                    ->get(); 
+    }
 
     public function getLogData()
     {

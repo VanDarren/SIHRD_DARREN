@@ -105,6 +105,14 @@
           </a>
         </li>
       </ul>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="{{ route('logout') }}" class="nav-link">
+            <i class=""></i>
+            <span class="ml-3 item-text">Logout</span>
+          </a>
+        </li>
+      </ul>
     @elseif($id_level == 3)
       <!-- Menu for id_level 3 -->
       <p class="text-muted nav-heading mt-4 mb-1"><span>Data</span></p>
@@ -113,6 +121,14 @@
           <a href="{{ route('lowongan') }}" class="nav-link">
             <i class="fe fe-briefcase fe-16"></i>
             <span class="ml-3 item-text">Lowongan</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav flex-fill w-100 mb-2">
+        <li class="nav-item">
+          <a href="{{ route('logout') }}" class="nav-link">
+            <i class=""></i>
+            <span class="ml-3 item-text">Logout</span>
           </a>
         </li>
       </ul>

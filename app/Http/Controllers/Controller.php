@@ -9,6 +9,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -302,12 +305,41 @@ class Controller extends BaseController
     }
 
 
-public function acceptPelamar($id_pelamar)
-{
-    $model = new HRD();
-    $model->edit('pelamar',  ['id_pelamar' => $id_pelamar],['status' => 'Diterima']);
-    return redirect()->route('lamaran')->with('success', 'Pelamar diterima');
-}
+    public function acceptPelamar($id_pelamar)
+    {
+        // Ambil data pelamar berdasarkan ID dan lakukan join dengan tabel lowongan
+        $pelamar = DB::table('pelamar')
+            ->join('lowongan', 'pelamar.id_lowongan', '=', 'lowongan.id_lowongan')
+            ->where('pelamar.id_pelamar', $id_pelamar)
+            ->select('pelamar.*', 'lowongan.nama_lowongan') // Pilih semua kolom dari pelamar dan nama_lowongan dari lowongan
+            ->first();
+        
+        if (!$pelamar) {
+            return redirect()->route('lamaran')->with('error', 'Pelamar tidak ditemukan');
+        }
+        
+        // Pastikan pelamar memiliki ID User
+        if (!$pelamar->id_user) {
+            return redirect()->route('lamaran')->with('error', 'Pelamar tidak memiliki ID User terkait');
+        }
+    
+        // Update status pelamar menjadi "Diterima"
+        DB::table('pelamar')->where('id_pelamar', $id_pelamar)->update(['status' => 'Diterima']);
+        
+        // Update id_level pada tabel user menjadi 2
+        DB::table('user')->where('id_user', $pelamar->id_user)->update(['id_level' => 2]);
+    
+        // Tambahkan data ke tabel karyawan
+        DB::table('karyawan')->insert([
+            'id_user' => $pelamar->id_user,          // Ambil id_user dari pelamar
+            'divisi' => $pelamar->nama_lowongan,    // Ambil nama_lowongan dari hasil join
+        ]);
+    
+        // Redirect kembali ke halaman lamaran dengan pesan sukses
+        return redirect()->route('lamaran')->with('success', 'Pelamar berhasil diterima, id_level diperbarui, dan data karyawan ditambahkan');
+    }
+    
+    
 
 public function declinePelamar($id_pelamar)
 {
