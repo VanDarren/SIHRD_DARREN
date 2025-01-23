@@ -41,5 +41,6 @@ Route::post('/addlamaran', [Controller::class, 'addlamaran'])->name('addlamaran'
 Route::get('/pelamar/detail/{id}', [Controller::class, 'detailPelamar'])->name('detailPelamar');
 Route::post('/pelamar/accept/{id}', [Controller::class, 'acceptPelamar'])->name('acceptPelamar');
 Route::post('/pelamar/decline/{id}', [Controller::class, 'declinePelamar'])->name('declinePelamar');
-Route::post('/pelamar/{id}', [Controller::class, 'declinePelamar'])->name('declinePelamar');
-Route::post('/pelamar/{id}', [Controller::class, 'declinePelamar'])->name('declinePelamar');
+Route::post('/tambahlowongan', [Controller::class, 'tambahlowongan'])->name('tambahlowongan');
+Route::post('/editlowongan/{id}', [Controller::class, 'editlowongan'])->name('editlowongan');
+Route::post('/hapuslowongan/{id}', [Controller::class, 'hapuslowongan'])->name('hapuslowongan');

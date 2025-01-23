@@ -148,7 +148,7 @@
 <div class="modal fade" id="tambahLowonganModal" tabindex="-1" role="dialog" aria-labelledby="tambahLowonganModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form action="{{ route('tambahLowongan') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('tambahlowongan') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="tambahLowonganModalLabel">Tambah Lowongan</h5>
@@ -180,3 +180,6 @@
   </div>
   
 </main>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>

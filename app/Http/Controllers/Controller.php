@@ -243,7 +243,7 @@ class Controller extends BaseController
     public function hapuslowongan(Request $request, $id_lowongan)
     {
         $model = new HRD();
-    $model->hapus('lowongan', ['id_pelamar' => $id_lowongan]);
+    $model->hapus('lowongan', ['id_lowongan' => $id_lowongan]);
     return redirect()->route('lowongan')->with('success', 'Lowongan dihapus');
     }
 
