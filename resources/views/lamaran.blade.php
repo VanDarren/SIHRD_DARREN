@@ -73,8 +73,7 @@
 
 <!-- JavaScript -->
 <script>
-  // Event untuk menampilkan detail pelamar dalam modal
-  $('#detailModal').on('show.bs.modal', function (e) {
+ $('#detailModal').on('show.bs.modal', function (e) {
     var button = $(e.relatedTarget); // Tombol yang membuka modal
     var modal = $(this);
 
@@ -93,5 +92,6 @@
       <p><strong>Alamat: </strong>${alamat}</p>
       <p><strong>Status: </strong>${status}</p>
     `);
-  });
+});
+
 </script>

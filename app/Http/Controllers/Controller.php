@@ -252,7 +252,7 @@ class Controller extends BaseController
         }
 
         $data['darren2'] = $model->getWhere('setting', ['id_setting' => 1]);
-        $data['pelamars'] = $model->join('pelamar','lowongan','pelamar.id_lowongan','lowongan.id_lowongan');
+        $data['pelamars'] = $model->join2('pelamar','lowongan','pelamar.id_lowongan','lowongan.id_lowongan');
         echo view('header', $data);
         echo view('menu', $data);
         echo view('lamaran', $data);
@@ -263,15 +263,26 @@ class Controller extends BaseController
 public function acceptPelamar($id_pelamar)
 {
     $model = new HRD();
-    $model->edit('pelamar', ['status' => 'Diterima'], ['id_pelamar' => $id_pelamar]);
+    $model->edit('pelamar',  ['id_pelamar' => $id_pelamar],['status' => 'Diterima']);
     return redirect()->route('lamaran')->with('success', 'Pelamar diterima');
 }
 
 public function declinePelamar($id_pelamar)
 {
     $model = new HRD();
-    $model->edit('pelamar', ['status' => 'Ditolak'], ['id_pelamar' => $id_pelamar]);
+    $model->edit('pelamar', ['id_pelamar' => $id_pelamar],['status' => 'Ditolak'], );
     return redirect()->route('lamaran')->with('success', 'Pelamar ditolak');
 }
+
+public function karyawan()
+{
+    $model = new HRD(); // Model yang digunakan
+    $data['karyawan'] = $model->join('karyawan', 'user', 'karyawan.id_user', 'user.id_user');
+    echo view('header', $data);
+    echo view('menu', $data);
+    echo view('karyawan', $data);
+    echo view('footer');
+}
+
 
 }

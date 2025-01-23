@@ -43,12 +43,13 @@ public function hapus($table, $where)
     return DB::table($this->table)->where($where)->delete();
 }
 
-    public function tampil2($tabel)
-    {
-        return DB::table($tabel)
-                 ->whereNull('deleted_at') 
-                 ->get();
-    }
+public function tampil2($tabel)
+{
+    return DB::table($tabel)
+             ->where('status', 'Pending') // Menambahkan kondisi where untuk status = 'Pending'
+             ->get();
+}
+
 
     public function join($table1, $table2, $on1, $on2) {
         $this->setTable($table1);
@@ -57,11 +58,13 @@ public function hapus($table, $where)
                     ->get(); 
     }
 
-    public function join2($table1, $table2, $on1, $on2) {
-        $this->setTable($table1);
+    public function join2($table1, $table2, $on1, $on2)
+    {
+        $this->setTable($table1); // Mengatur tabel utama
         return DB::table($this->table)
-                    ->leftJoin($table2, $on1, '=', $on2)
-                    ->get(); 
+                 ->join($table2, $on1, '=', $on2) // Melakukan join antara tabel utama dan tabel kedua
+                 ->where('status', 'Pending') // Menambahkan kondisi where untuk status = 'Pending'
+                 ->get(); // Mengambil data
     }
     
 

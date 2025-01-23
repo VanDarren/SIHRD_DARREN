@@ -24,6 +24,11 @@
     <!-- App CSS -->
     <link rel="stylesheet" href="{{asset('css/app-light.css') }}" id="lightTheme">
     <link rel="stylesheet" href="{{asset('css/app-dark.css') }}" id="darkTheme" disabled>
-   
+   <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
