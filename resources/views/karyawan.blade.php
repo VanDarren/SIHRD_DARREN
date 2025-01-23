@@ -32,8 +32,15 @@
                         <td>{{ number_format($data->gaji, 2, ',', '.') }}</td>
                         <td>{{ $data->divisi }}</td>
                         <td>
-                          <a href="" class="btn btn-sm btn-warning">Edit</a>
-                          <a href="" 
+                          <button type="button" class="btn btn-sm btn-warning" 
+                                  data-toggle="modal" data-target="#editEmployeeModal"
+                                  data-id="{{ $data->id_karyawan }}" 
+                                  data-username="{{ $data->username }}"
+                                  data-gaji="{{ $data->gaji }}" 
+                                  data-divisi="{{ $data->divisi }}">
+                            Edit
+                          </button>
+                          <a href="{{ route('hapuskaryawan', $data->id_karyawan) }}" 
                              class="btn btn-sm btn-danger"
                              onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                         </td>
@@ -48,5 +55,59 @@
       </div> <!-- /.col-12 -->
     </div> <!-- /.row -->
   </div> <!-- .container-fluid -->
+
+ 
+  <!-- Edit Employee Modal -->
+  <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editEmployeeLabel">Edit Karyawan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{{ route('editkaryawan', $data->id_karyawan) }}" method="POST">
+          @csrf
+          <input type="hidden" name="id_karyawan" id="editIdKaryawan">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="editUsername">Username</label>
+              <input type="text" class="form-control" id="editUsername" name="username" required>
+            </div>
+            <div class="form-group">
+              <label for="editGaji">Gaji</label>
+              <input type="number" class="form-control" id="editGaji" name="gaji" required>
+            </div>
+            <div class="form-group">
+              <label for="editDivisi">Divisi</label>
+              <input type="text" class="form-control" id="editDivisi" name="divisi" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 </main>
 
+<!-- Script to handle the modal data filling -->
+<script>
+  $('#editEmployeeModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); 
+    var id = button.data('id'); 
+    var username = button.data('username'); 
+    var gaji = button.data('gaji'); 
+    var divisi = button.data('divisi'); 
+
+    var modal = $(this);
+    modal.find('#editIdKaryawan').val(id);
+    modal.find('#editUsername').val(username);
+    modal.find('#editGaji').val(gaji);
+    modal.find('#editDivisi').val(divisi);
+  });
+</script>

@@ -44,3 +44,5 @@ Route::post('/pelamar/decline/{id}', [Controller::class, 'declinePelamar'])->nam
 Route::post('/tambahlowongan', [Controller::class, 'tambahlowongan'])->name('tambahlowongan');
 Route::post('/editlowongan/{id}', [Controller::class, 'editlowongan'])->name('editlowongan');
 Route::post('/hapuslowongan/{id}', [Controller::class, 'hapuslowongan'])->name('hapuslowongan');
+Route::post('/editkaryawan/{id}', [Controller::class, 'editkaryawan'])->name('editkaryawan');
+Route::post('/hapuskaryawan/{id}', [Controller::class, 'hapuskaryawan'])->name('hapuskaryawan');

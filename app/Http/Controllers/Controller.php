@@ -359,6 +359,39 @@ public function karyawan()
     echo view('footer');
 }
 
+
+
+public function editKaryawan(Request $request, $id_karyawan)
+    {
+        $model = new HRD();
+
+        // Ambil data dari request
+        $username = $request->input('username');
+        $gaji = $request->input('gaji');
+        $divisi = $request->input('divisi');
+
+        // Siapkan data untuk diupdate
+        $data = [
+            'gaji' => $gaji,
+            'divisi' => $divisi
+        ];
+
+        // Panggil fungsi edit dari model
+        $model->edit('karyawan', ['id_karyawan' => $id_karyawan], $data);
+        
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil diedit');
+    }
+
+    public function hapusKaryawan(Request $request, $id_karyawan)
+    {
+        $model = new HRD();
+        
+        // Panggil fungsi hapus dari model
+        $model->hapus('karyawan', ['id_karyawan' => $id_karyawan]);
+        
+        return redirect()->route('karyawan')->with('success', 'Data karyawan berhasil dihapus');
+    }
+
 public function setting()
 {
     $id_level = session()->get('id_level');	
